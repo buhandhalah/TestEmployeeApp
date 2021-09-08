@@ -1,0 +1,103 @@
+﻿@model TestEmployeeApp.Models.Emp_Model
+@{
+    int i = 1;
+    ViewBag.Title = "All Employees";
+
+
+
+}
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.min.css">
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js">
+
+
+
+<section class="content">
+    <input type="hidden" id="hd_mode" value="Normaltbl" />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">All Employees</h3>
+                </div>
+
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div>
+                        @Html.ActionLink("Create New", "CreateEmployee")
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered table-striped TransDataTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        Emp ID
+                                    </th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Email
+                                    </th>
+                                    <th>
+                                        Designation
+                                    </th>
+
+                                    <th>
+                                        Edit/Delete
+                                    </th>
+                                   
+                                </tr>
+                            </thead>
+                            @if (Model.Employeeslst != null)
+                            {
+                                var EmLst = Model.Employeeslst;
+                                foreach (var item in EmLst)
+                                {
+
+                                    <tr>
+                                        <td>
+                                            @i
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EmpId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Email)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Designation)
+                                        </td>
+
+                                        <td>
+                                            @Html.ActionLink("Edit", "EditEmployee", new { id = item.EmpId })
+                                            |
+                                            @Html.ActionLink("Delete", "DeleteEmployee", new { id = item.EmpId }, new { onclick = "return confirm('Are you sure you wish to remove this Field?');" })
+                                        </td>
+
+                                        @{
+                                            i++;
+                                        }
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </div>
+                    @section Scripts
+                    {
+                        @*@Scripts.Render("~/bundles/DataTablesJs")
+                            @Scripts.Render("~/bundles/NavItemName")*@
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

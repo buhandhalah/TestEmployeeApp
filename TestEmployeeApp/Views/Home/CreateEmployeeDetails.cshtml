@@ -1,0 +1,76 @@
+﻿@model TestEmployeeApp.Models.Emp_Model
+@{
+    ViewBag.Title = "CreateEmployee Details";
+}
+
+
+
+<section class="content">
+    <input type="hidden" id="hd_mode" value="CreateLevelPage" />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title"> Create Employee Details</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <form id="Item_Code_Name_CreatePartTypeDesc">
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "alert alert-dismissible alert-success" })
+
+                                <br /><br />
+
+                                <div></div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2"> Employee Name <span class="required">*</span></label>
+                                    <div class="col-md-6">
+                                        @Html.DropDownListFor(m => m.Employee.EmpId, Model.EmployeeItems, "Select", new { @Class = "form-control select2 EmpID", @id = "EmpID", @required = true })
+                                        @Html.ValidationMessageFor(model => model.Employee.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2"> File Name <span class="required">*</span></label>
+                                    <div class="col-md-6">
+                                        @Html.EditorFor(model => model.Employee_Details.FileName, new { htmlAttributes = new { @type = "text", @class = "form-control FileName", @required = true } })
+                                        @Html.ValidationMessageFor(model => model.Employee_Details.FileName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                @*<div class="form-group">
+                                    <label class="control-label col-md-2"> Email <span class="required">*</span></label>
+                                    <div class="col-md-6">
+                                        @Html.EditorFor(model => model.Employee.Email, new { htmlAttributes = new { @type = "text", @class = "form-control Email", @required = true } })
+                                        @Html.ValidationMessageFor(model => model.Employee.Email, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2"> Designation <span class="required">*</span></label>
+                                    <div class="col-md-6">
+                                        @Html.EditorFor(model => model.Employee.Designation, new { htmlAttributes = new { @type = "text", @class = "form-control Designation", @required = true } })
+                                        @Html.ValidationMessageFor(model => model.Employee.Designation, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>*@
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Create" class="btn btn-primary btn-lg" />
+                                        <div class="div_loading"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    }
+
+                    <div>
+                        @Html.ActionLink("Back to List", "EmployeeDetails")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
