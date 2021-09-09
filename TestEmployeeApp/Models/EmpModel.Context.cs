@@ -27,6 +27,5 @@ namespace TestEmployeeApp.Models
     
         public DbSet<Employee> Employee { get; set; }
         public DbSet<Employee_Details> Employee_Details { get; set; }
-        public DbSet<View_EmpDetails> View_EmpDetails { get; set; }
     }
 }

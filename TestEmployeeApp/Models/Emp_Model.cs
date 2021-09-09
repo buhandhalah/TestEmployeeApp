@@ -11,11 +11,13 @@ namespace TestEmployeeApp.Models
         public Employee Employee { get; set; }
         public Employee_Details Employee_Details { get; set; }
 
+        public List<Employee_Details> DocumentsList { get; set; }
+
         public List<Employee> Employeeslst { get; set; }
         public List<Employee_Details> Employee_DetailsLst { get; set; }
 
-        public View_EmpDetails View_EmpDetails { get; set; }
-        public List<View_EmpDetails> View_EmpDetailsLst { get; set; }
+        //public View_EmpDetails View_EmpDetails { get; set; }
+        //public List<View_EmpDetails> View_EmpDetailsLst { get; set; }
 
         public IEnumerable<SelectListItem> EmployeeItems
         {

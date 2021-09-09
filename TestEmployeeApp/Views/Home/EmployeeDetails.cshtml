@@ -1,9 +1,11 @@
 ﻿@model TestEmployeeApp.Models.Emp_Model
+@using TestEmployeeApp.Models
+@using TestEmployeeApp.Helper
 @{
     int i = 1;
     ViewBag.Title = "All Employees";
-
-
+    var db = new IntrTaskEntities();
+    CustomConfig helperConfig = new CustomConfig();
 
 }
 
@@ -25,7 +27,7 @@
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div>
-                        @Html.ActionLink("Create New", "CreateEmployee")
+                        @Html.ActionLink("Create New", "CreateEmployeeDetails")
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered table-striped TransDataTable">
@@ -52,49 +54,57 @@
 
                                 </tr>
                             </thead>
-                            @if (Model.View_EmpDetailsLst != null)
+                            @if (Model.Employee_DetailsLst != null)
                             {
-                                var EmLst = Model.View_EmpDetailsLst;
+                                var EmLst = Model.Employee_DetailsLst;
                                 foreach (var item in EmLst)
                                 {
 
-                            <tr>
-                                <td>
-                                    @i
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.EmpId)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FileName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CreatedDate)
-                                </td>
-                                
-                                <td>
-                                    @Html.ActionLink("Edit", "EditEmployee", new { id = item.EmpId })
-                                    |
-                                    @Html.ActionLink("Delete", "DeleteEmployee", new { id = item.EmpId }, new { onclick = "return confirm('Are you sure you wish to remove this Field?');" })
-                                </td>
+                                    <tr>
+                                        <td>
+                                            @i
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EmpId)
+                                        </td>
+                                        <td>
+                                            @{
+                                                var findEmpName = db.Employee.Where(m => m.EmpId == item.EmpId).FirstOrDefault();
+                                                if (findEmpName != null)
+                                                {
+                                                    @Html.DisplayFor(modelItem => findEmpName.Name)
+                                                }
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FileName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                                        </td>
 
-                                @{
-                                    i++;
-                                }
-                            </tr>
+                                        <td>
+                                            @{
+                                                var uploadpath = helperConfig.Doc_upload_path;
+                                                var fname = uploadpath + item.FilePath + item.FileName;
+
+
+                                                                 <a href="@Url.Content(fname)" target="_blank">View</a>
+                                                                
+                                            }
+                                            |
+                                            @Html.ActionLink("Delete", "DeleteEmployeeDetails", new { File = item.FileName }, new { onclick = "return confirm('Are you sure you wish to remove this Field?');" })
+                                        </td>
+
+                                        @{
+                                            i++;
+                                        }
+                                    </tr>
                                 }
                             }
                         </table>
                     </div>
-                    @section Scripts
-                    {
-                        @*@Scripts.Render("~/bundles/DataTablesJs")
-                            @Scripts.Render("~/bundles/NavItemName")*@
 
-                    }
                 </div>
             </div>
         </div>

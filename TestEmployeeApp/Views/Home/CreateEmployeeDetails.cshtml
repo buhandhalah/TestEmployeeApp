@@ -1,12 +1,15 @@
-﻿@model TestEmployeeApp.Models.Emp_Model
+﻿@using TestEmployeeApp.Helper
+@model TestEmployeeApp.Models.Emp_Model
 @{
+    CustomConfig helperConfig = new CustomConfig();
     ViewBag.Title = "CreateEmployee Details";
 }
 
 
-
+<input type="hidden" id="hd_DocPath" value="@helperConfig.Doc_upload_path" />
 <section class="content">
     <input type="hidden" id="hd_mode" value="CreateLevelPage" />
+    <input type="hidden" id="hd_mode" value="create" />
     <div class="row">
         <div class="col-md-12">
             <div class="box box-default">
@@ -16,59 +19,80 @@
                 <!-- /.box-header -->
                 <div class="box-body">
 
-                    @using (Html.BeginForm())
-                    {
-                        @Html.AntiForgeryToken()
-                        <form id="Item_Code_Name_CreatePartTypeDesc">
-                            <div class="form-horizontal">
-                                @Html.ValidationSummary(true, "", new { @class = "alert alert-dismissible alert-success" })
+                   
+                    <form id="Item_Code_Name_CreatePartTypeDesc">
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "alert alert-dismissible alert-success" })
 
-                                <br /><br />
+                            <br /><br />
 
-                                <div></div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-2"> Employee Name <span class="required">*</span></label>
-                                    <div class="col-md-6">
-                                        @Html.DropDownListFor(m => m.Employee.EmpId, Model.EmployeeItems, "Select", new { @Class = "form-control select2 EmpID", @id = "EmpID", @required = true })
-                                        @Html.ValidationMessageFor(model => model.Employee.Name, "", new { @class = "text-danger" })
+                            <div></div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2"> Employee Name <span class="required">*</span></label>
+                                <div class="col-md-6">
+                                    @Html.DropDownListFor(m => m.Employee.EmpId, Model.EmployeeItems, "Select", new { @Class = "form-control select2 EmpID", @id = "EmpID", @required = true })
+                                    @Html.ValidationMessageFor(model => model.Employee.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                      
+                            <div class="col-lg-12">
+                                <!--Attach documents-->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h4 class="text-light-blue">Attach Documents<span class="required">*</span></h4>
+                                        <div class="file_msg"></div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-lg-offset-2">
+                                        <label class="control-label">Browse your file</label>
+                                        <input type="file" name="file_txn" id="file_txn" multiple="multiple" />
+                                        <small>Max.File Size is 50MB</small>
+                                    </div>
+                                    @*<div class="col-lg-4">
+                                        <label class="control-label">File Name</label>
+                                        <textarea id="txt_pic_desc" class="txt_pic_desc form-control"></textarea>
+                                    </div>*@
+                                    <div class="col-lg-2">
+                                        <br />
+                                        <br />
+                                        <button type="button" class="btn btn-primary btn_attach_action_files">Upload File</button>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-2"> File Name <span class="required">*</span></label>
-                                    <div class="col-md-6">
-                                        @Html.EditorFor(model => model.Employee_Details.FileName, new { htmlAttributes = new { @type = "text", @class = "form-control FileName", @required = true } })
-                                        @Html.ValidationMessageFor(model => model.Employee_Details.FileName, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                @*<div class="form-group">
-                                    <label class="control-label col-md-2"> Email <span class="required">*</span></label>
-                                    <div class="col-md-6">
-                                        @Html.EditorFor(model => model.Employee.Email, new { htmlAttributes = new { @type = "text", @class = "form-control Email", @required = true } })
-                                        @Html.ValidationMessageFor(model => model.Employee.Email, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-2"> Designation <span class="required">*</span></label>
-                                    <div class="col-md-6">
-                                        @Html.EditorFor(model => model.Employee.Designation, new { htmlAttributes = new { @type = "text", @class = "form-control Designation", @required = true } })
-                                        @Html.ValidationMessageFor(model => model.Employee.Designation, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>*@
-
-                                <div class="form-group">
-                                    <div class="col-md-offset-2 col-md-10">
-                                        <input type="submit" value="Create" class="btn btn-primary btn-lg" />
-                                        <div class="div_loading"></div>
+                                <div class="row">
+                                    <div class="col-lg-12 div_attachs" style="display:none;margin-top:1%;">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>FileName</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="action_tbody"></tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
-                        </form>
 
-                    }
+
+                        </div>
+                    </form>
+                  <div><br/></div><div><br/></div>
+                    <div class="form-group">
+                        <div class="col-md-12 col-md-offset-8">
+                            <input type="submit" value="Create" class="btn btn-success btn_save btn-lg" data-smode="post"/>
+                            <div class="div_loading"></div>
+                        </div>
+                    </div>
+              
 
                     <div>
                         @Html.ActionLink("Back to List", "EmployeeDetails")
                     </div>
+                    @section Scripts
+                    {
+                     
+                        @Scripts.Render("~/bundles/EmpJs")
+                    }
                 </div>
             </div>
         </div>

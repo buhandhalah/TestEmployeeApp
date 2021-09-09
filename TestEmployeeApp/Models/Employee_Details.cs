@@ -14,7 +14,8 @@ namespace TestEmployeeApp.Models
     
     public partial class Employee_Details
     {
-        public long EmpId { get; set; }
+        public long ID { get; set; }
+        public Nullable<long> EmpId { get; set; }
         public string FileName { get; set; }
         public string FilePath { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
